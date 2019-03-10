@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/fragments/head::head(${'Welcome'})"></head>
+<body>
+
+    <h1>Welcome to Contacts Manager!</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Middle Initial</th>
+                <th>Suffix</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <thblock th:each="contact:${contacts}">
+               <tr>
+                   <td data-prop="lastName" th:text="${contact.lastName}"></td>
+                   <td data-prop="firstName" th:text="${contact.firstName}"></td>
+                   <td data-prop="middleInitial"><th:block th:text="${contact.middleInitial}"></th:block>.</td>
+                   <td data-prop="suffix" th:text="${contact.suffix}"></td>
+                   <td data-prop="phoneNumber" th:text="${contact.phoneNumber}"></td>
+                   <td data-prop="email" th:text="${contact.email}"></td>
+                   <td data-prop="address" th:text="${contact.address}"></td>
+                   <td data-prop="id"><button class="edit-btn" th:attr="data-dbid=${contact.id}">Edit</button></td>
+               </tr>
+            </thblock>
+        </tbody>
+    </table>
+
+    <script>
+        "use strict";
+
+        let editBtns = document.getElementsByClassName('edit-btn');
+
+        function buildRowForm(rowData) {
+
+            let html = `<form action="/edit/${rowData['id']}"><tr>`;
+            for (let key in rowData) {
+                if (key !== 'id') {
+                    html += `
+                    <td data-prop="${key}">
+                        <input type="text" name="${key}" class="form-input" id="${key}" value="${rowData[key]}"/>
+                    </td>
+                   `;
+                }
+            }
+            html += '</tr></form>';
+
+            return html;
+
+        }
+
+        function returnRowdata(e) {
+            let row = e.target.parentNode.parentNode.children;
+            console.log(row[0].getAttribute("data-prop"));
+            let rowData = {};
+            for (let cell of row) {
+                if (cell.getAttribute("data-prop") === 'id') {
+                    rowData[cell.getAttribute("data-prop")] = cell.childNodes[0].getAttribute("data-dbid");
+                } else {
+                    rowData[cell.getAttribute("data-prop")] = cell.innerHTML;
+                }
+            }
+            return rowData;
+
+        }
+        for (let editBtn of editBtns) {
+            editBtn.addEventListener("click", function(e) {
+                let rowData = returnRowdata(e);
+                let formHtml = buildRowForm(rowData);
+                e.target.parentNode.parentNode.innerHTML = formHtml;
+            });
+        }
+
+    </script>
+
+</body>
+</html>
