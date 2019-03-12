@@ -16,7 +16,7 @@ public class ContactController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("contacts", contactDao.findAll());
-        return "/index";
+        return "index";
     }
 
 }
