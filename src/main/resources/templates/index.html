@@ -113,6 +113,7 @@
                     for (let td of document.querySelector(`button[data-dbid='${id}']`).parentElement.parentElement.children) {
                         td.addEventListener("dblclick", clickRowEditBtn);
                     }
+                    document.querySelector("#add-btn").classList.remove("hide");
                 },
                 delete: function(e) {
                     e.preventDefault();
@@ -139,6 +140,7 @@
             for (let editBtn of document.querySelectorAll('.edit-btn')) {
                 editBtn.classList.add("hide");
             }
+            document.querySelector("#add-btn").classList.add("hide");
         }
 
         function clickRowEditBtn(e) {
@@ -160,6 +162,14 @@
             document.querySelector("#add-btn").classList.add("hide");
             document.querySelectorAll(".edit-btn").forEach(function(node) {
                 node.classList.add("hide");
+            });
+            document.querySelector("#add-btn").classList.add("hide");
+            document.querySelector("#cancel-create-btn").addEventListener("click", function(e) {
+                // .parentNode.parentNode.removeChild(e.parentNode.parentNode);
+                e.target.parentNode.parentNode.remove();
+                document.querySelectorAll("#add-btn, .edit-btn").forEach(function(element) {
+                    element.classList.remove("hide");
+                })
             });
         })
 
