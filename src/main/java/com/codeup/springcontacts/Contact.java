@@ -13,36 +13,46 @@ public class Contact {
     @GeneratedValue
     private long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable=false, length=50, name="first_name")
     private String firstName;
 
-    @Column
+    @Column(name="middle_initial")
     private char middleInitial;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable=false, length=50, name="last_name")
     private String lastName;
 
-    @Column(length = 10)
+    @Column(length=10)
     private String suffix;
 
     @Column
     private String email;
 
-    @Column(length = 50)
+    @Column(length=50, name="phone_number")
     private String phoneNumber;
 
-    @Column(length = 1000)
+    @Column(length=1000)
     private String address;
 
-    @Column
+    @Column(name="created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Column
+    @Column(name="updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     public Contact() {
+    }
+
+    public Contact(String firstName, char middleInitial, String lastName, String suffix, String email, String phoneNumber, String address) {
+        this.firstName = firstName;
+        this.middleInitial = middleInitial;
+        this.lastName = lastName;
+        this.suffix = suffix;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
     }
 
     public long getId() {
@@ -123,5 +133,10 @@ public class Contact {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("id: %s%nfirstName: %s%nmiddleInitial: %s%nlastName: %s%nsuffix: %s%nemail: %s%nphoneNumber: %s%naddress: %s%ncreatedAt: %s%nupdatedAt: %s", this.id, this.firstName, this.middleInitial, this.lastName, this.suffix, this.email, this.phoneNumber, this.address, this.createdAt, this.updatedAt);
     }
 }

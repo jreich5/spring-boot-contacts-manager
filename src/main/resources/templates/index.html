@@ -72,12 +72,11 @@
             for (let field of fields) {
                 html += `
                 <td data-prop="${field}">
-                    <input type="text" name="${field}" class="form-input" id="${field}" placeholder="Enter ${field}"/>
+                    <input form="create-form" type="text"  class="form-input" id="${field}" name="${field}" placeholder="Enter ${field}"/>
                 </td>
                `;
             }
             html += `
-                </form>
                 <td>
                     <button class="save-create-btn" id="save-create-btn">Save</button>
                     <button class="cancel-create-btn" id="cancel-create-btn">Cancel</button>
@@ -157,7 +156,7 @@
 
         document.querySelector('#add-btn').addEventListener("click", function() {
             let node = document.createElement("TR");
-            node.innerHTML = buildNewFormRow(['lastName', 'firstName', 'middleInitial', 'suffix', 'phoneNumber', 'email', 'address']);
+            node.innerHTML = buildNewFormRow(['firstName', 'lastName', 'middleInitial', 'suffix', 'phoneNumber', 'email', 'address']) + "</form>";
             document.querySelector("tbody").appendChild(node);
             document.querySelector("#add-btn").classList.add("hide");
             document.querySelectorAll(".edit-btn").forEach(function(node) {
@@ -171,7 +170,13 @@
                     element.classList.remove("hide");
                 })
             });
-        })
+
+            document.querySelector("#save-create-btn").addEventListener("click", function(e) {
+                document.getElementById("create-form").submit();
+            });
+        });
+
+
 
     </script>
 
