@@ -23,7 +23,7 @@
                <tr>
                    <td data-prop="lastName" th:text="${contact.lastName}"></td>
                    <td data-prop="firstName" th:text="${contact.firstName}"></td>
-                   <td data-prop="middleInitial"><th:block th:text="${contact.middleInitial}"></th:block>.</td>
+                   <td data-prop="middleInitial" th:text="${contact.middleInitial}"></td>
                    <td data-prop="suffix" th:text="${contact.suffix}"></td>
                    <td data-prop="phoneNumber" th:text="${contact.phoneNumber}"></td>
                    <td data-prop="email" th:text="${contact.email}"></td>
@@ -43,13 +43,13 @@
         function buildRowForm(rowData) {
             let html = `
             <tr>
-                <form id="update-form-${rowData.id}" action="/contact/${rowData.id}/update" method="POST">
+                <form id="update-form-${rowData.id}" action="/contacts/${rowData.id}/update" method="POST">
             `;
             for (let key in rowData) {
                 if (key !== 'id') {
                     html += `
                     <td data-prop="${key}">
-                        <input type="text" name="${key}" class="form-input" id="${key}" value="${rowData[key]}"/>
+                        <input type="text" name="${key}" form="update-form-${rowData.id}" class="form-input" id="${key}" value="${rowData[key]}"/>
                     </td>
                    `;
                 }
@@ -97,7 +97,7 @@
         const createRowBtnListeners = (id, oldRowHtml) => {
             return {
                 save: function(e) {
-                    console.log("save " + id);
+                    e.target.parentNode.parentNode.firstElementChild.submit();
                 },
                 cancel: function(e) {
                     e.preventDefault();
@@ -117,7 +117,7 @@
                 delete: function(e) {
                     e.preventDefault();
                     if (confirm("Are you sure you wish to delete this contact?")) {
-                        e.parentNode.submit();
+                        e.target.parentElement.submit();
                     }
                 }
             };
@@ -164,7 +164,6 @@
             });
             document.querySelector("#add-btn").classList.add("hide");
             document.querySelector("#cancel-create-btn").addEventListener("click", function(e) {
-                // .parentNode.parentNode.removeChild(e.parentNode.parentNode);
                 e.target.parentNode.parentNode.remove();
                 document.querySelectorAll("#add-btn, .edit-btn").forEach(function(element) {
                     element.classList.remove("hide");

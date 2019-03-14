@@ -55,6 +55,17 @@ public class Contact {
         this.address = address;
     }
 
+    public Contact(long id, String firstName, char middleInitial, String lastName, String suffix, String email, String phoneNumber, String address) {
+        this.id = id;
+        this.firstName = firstName;
+        this.middleInitial = middleInitial;
+        this.lastName = lastName;
+        this.suffix = suffix;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
     public long getId() {
         return id;
     }

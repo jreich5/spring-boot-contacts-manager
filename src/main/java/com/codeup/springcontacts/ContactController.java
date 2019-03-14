@@ -3,6 +3,7 @@ package com.codeup.springcontacts;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,6 +34,30 @@ public class ContactController {
             ) {
         Contact c = new Contact(firstName, middleInitial, lastName, suffix, email, phoneNumber, address);
         contactDao.save(c);
+        return "redirect:/";
+    }
+
+    @PostMapping("/contacts/{id}/update")
+    public String save(
+            @PathVariable long id,
+            @RequestParam String firstName,
+            @RequestParam char middleInitial,
+            @RequestParam String lastName,
+            @RequestParam String suffix,
+            @RequestParam String email,
+            @RequestParam String phoneNumber,
+            @RequestParam String address
+    ) {
+        Contact c = new Contact(id, firstName, middleInitial, lastName, suffix, email, phoneNumber, address);
+        contactDao.save(c);
+        return "redirect:/";
+    }
+
+    @PostMapping("/contacts/{id}/delete")
+    public String delete(
+            @PathVariable long id
+    ) {
+        contactDao.delete(id);
         return "redirect:/";
     }
 
