@@ -147,7 +147,7 @@ td button.edit-btn {
         border: 0;
         padding: .5em;
     }
-    tr:first-child {
+    thead {
         display: none;
     }
     tr {
